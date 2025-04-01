@@ -48,6 +48,26 @@ Only the following users have access to the bot:
 - @envydany
 - @TANIAPENG
 
+### How to Change Authorized Users
+
+To change the list of authorized users:
+
+1. Open the `main.go` file
+2. Find the `isAuthorized` function
+3. Modify the `authorizedUsers` slice with the new usernames:
+
+```go
+func isAuthorized(username string) bool {
+    authorizedUsers := []string{
+        "new_user1",  // Replace with new username
+        "new_user2",  // Replace with new username
+    }
+    // ... rest of the function
+}
+```
+
+Note: Usernames should be provided without the "@" symbol.
+
 ## Adding Expenses
 
 1. Send the amount (e.g., "100")
