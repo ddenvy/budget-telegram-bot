@@ -1,0 +1,11 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Go files should use LF
+*.go text eol=lf
+*.mod text eol=lf
+*.sum text eol=lf
+
+# Denote all files that are truly binary and should not be modified
+*.db binary
+*.exe binary 

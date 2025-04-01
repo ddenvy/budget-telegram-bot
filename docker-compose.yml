@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    container_name: telegram-budget-bot
+    volumes:
+      - ./data:/app/data
+      - .env:/app/.env
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
+    network_mode: "host"  # Используем сеть хоста для доступа к локальному VPN
+    extra_hosts:
+      - "api.telegram.org:149.154.167.220"
+      - "host.docker.internal:host-gateway" 
