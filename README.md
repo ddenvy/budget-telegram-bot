@@ -1,92 +1,74 @@
-# Shared Budget Telegram Bot (Go Version)
+# Shared Budget Bot
 
-Telegram бот для управления общим бюджетом, написанный на Go. Все транзакции отслеживаются в CNY (китайских юанях).
+A Telegram bot for managing shared expenses and income. Built with Go and SQLite.
 
-## Особенности
+## Features
 
-- Добавление расходов с описанием и суммой
-- Отслеживание общего баланса
-- Добавление доходов
-- Просмотр месячной статистики
-- Установка произвольного баланса
-- SQLite база данных для хранения данных
+- Track shared expenses and income
+- Categorize expenses
+- Monthly statistics
+- Balance management
+- User authorization
+- Interactive menu with commands
 
-## Требования
+## Commands
 
-- Go 1.24 или выше
-- SQLite3
+- `/start` - Start the bot and show welcome message
+- `/balance` - Show current balance
+- `/add_income <amount>` - Add income
+- `/set_balance <amount>` - Set new balance
+- `/summary` - Show monthly statistics
+- `/reset_balance` - Reset balance to zero
 
-## Установка
+## Expense Categories
 
-1. Клонируйте репозиторий:
-```bash
-git clone <repository-url>
-cd telegram-budget-bot
-```
+- Food
+- House
+- Transportation
+- Grocery
+- Entertainment
+- MonicaBB
+- Emergency
 
-2. Установите зависимости:
-```bash
-go mod tidy
-```
+## Setup
 
-3. Создайте файл `.env` в корневой директории проекта с вашим токеном бота:
+1. Create a `.env` file with your Telegram bot token:
 ```
 BOT_TOKEN=your_bot_token_here
 ```
 
-4. Запустите бот:
+2. Build and run with Docker:
 ```bash
-go run main.go
+docker-compose up --build -d
 ```
 
-## Использование
+## Authorized Users
 
-### Команды
+Only the following users have access to the bot:
+- @envydany
+- @TANIAPENG
 
-- `/start` - Регистрация и просмотр приветственного сообщения
-- `/balance` - Показать текущий общий баланс
-- `/add_income <сумма>` - Добавить доход (например, `/add_income 5000`)
-- `/set_balance <сумма>` - Установить новый баланс вручную
-- `/summary` - Просмотр месячной статистики
+## Adding Expenses
 
-### Добавление расходов
+1. Send the amount (e.g., "100")
+2. Select a category from the provided list
+3. Enter a description of the purchase
 
-Просто отправьте сообщение в формате: `описание сумма` или `описание сумма CNY`
+The bot will then show:
+- Category
+- Description
+- Amount
+- Date
+- User
+- Total balance
+- Monthly expenses
 
-Примеры:
-- `хлеб 10`
-- `такси 45.5 CNY`
-- `ужин 100`
+## Database
 
-## Структура базы данных
+The bot uses SQLite for data storage. The database file is located at `data/budget.db`.
 
-Бот использует SQLite с двумя основными таблицами:
+## Development
 
-### Таблица Users
-- user_id (PRIMARY KEY)
-- username
-- registered_at
-
-### Таблица Transactions
-- id (PRIMARY KEY)
-- user_id (FOREIGN KEY)
-- type ('income' или 'expense')
-- amount
-- description
-- created_at
-
-## Обработка ошибок
-
-Бот включает обработку ошибок для:
-- Неверных форматов команд
-- Неверных форматов расходов
-- Ошибок базы данных
-- Отрицательных сумм
-
-## Преимущества Go версии
-
-1. Высокая производительность
-2. Встроенная конкурентность
-3. Строгая типизация
-4. Компиляция в единый исполняемый файл
-5. Низкое потребление памяти 
+The bot is written in Go and uses the following main packages:
+- github.com/go-telegram-bot-api/telegram-bot-api/v5
+- github.com/joho/godotenv 

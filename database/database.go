@@ -218,6 +218,25 @@ func (db *DB) GetMonthlyExpenses() (float64, error) {
 	return expenses, err
 }
 
+func (db *DB) ResetBalance() error {
+	return db.Update(func(txn *badger.Txn) error {
+		opts := badger.DefaultIteratorOptions
+		it := txn.NewIterator(opts)
+		defer it.Close()
+
+		prefix := []byte("transaction:")
+		for it.Seek(prefix); it.ValidForPrefix(prefix); it.Next() {
+			item := it.Item()
+			if err := txn.Delete(item.Key()); err != nil {
+				return err
+			}
+		}
+
+		// Сбрасываем ID последней транзакции
+		return txn.Delete([]byte("last_transaction_id"))
+	})
+}
+
 func uint64ToBytes(i uint64) []byte {
 	var buf [8]byte
 	for shift := uint(0); shift < 64; shift += 8 {
